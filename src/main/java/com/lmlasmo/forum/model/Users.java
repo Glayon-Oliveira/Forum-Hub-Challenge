@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 public class Users {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Column(nullable = false)
@@ -35,7 +35,7 @@ public class Users {
 	@Column(nullable = false)
 	private String password;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToOne(mappedBy = "user",fetch = FetchType.EAGER, cascade = {CascadeType.ALL})			
 	private Profiles profile;
 	
 	@OneToMany(mappedBy = "author")
@@ -50,7 +50,7 @@ public class Users {
 		this.username = signup.getUsername();
 		this.email = signup.getEmail();
 		this.password = signup.getPassword();
-		this.profile = new Profiles(signup.getProfileName());		
+		this.profile = new Profiles(signup.getProfileName(), this);
 	}
 
 	@PrePersist

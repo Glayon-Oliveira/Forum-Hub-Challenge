@@ -10,6 +10,6 @@ public interface TopicsRepository extends JpaRepository<Topics, Integer> {
 
 	public List<Topics> findByTitleIgnoreCaseContaining(String charSequency);
 	
-	public List<Topics> findBySoved(boolean soved);
+	public List<Topics> findBySolved(boolean soved);
 	
 }

@@ -18,15 +18,16 @@ public class Profiles {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToOne(mappedBy = "profile")
+	@OneToOne
 	@MapsId
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "id", referencedColumnName = "id")
 	private Users user;
 	
 	public Profiles() {}
 
-	public Profiles(String profileName) {
+	public Profiles(String profileName, Users user) {		
 		this.name = profileName;
+		this.user = user;
 	}
 
 	public int getId() {
