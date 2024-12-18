@@ -3,6 +3,8 @@ package com.lmlasmo.forum.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.lmlasmo.forum.dto.register.SignupDTO;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,6 +46,13 @@ public class Users {
 	
 	public Users() {}
 	
+	public Users(SignupDTO signup) {
+		this.username = signup.getUsername();
+		this.email = signup.getEmail();
+		this.password = signup.getPassword();
+		this.profile = new Profiles(signup.getProfileName());		
+	}
+
 	@PrePersist
 	@PreUpdate
 	public void pre() {

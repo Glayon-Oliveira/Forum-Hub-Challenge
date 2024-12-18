@@ -25,6 +25,10 @@ public class Profiles {
 	
 	public Profiles() {}
 
+	public Profiles(String profileName) {
+		this.name = profileName;
+	}
+
 	public int getId() {
 		return id;
 	}
