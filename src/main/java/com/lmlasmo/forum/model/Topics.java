@@ -33,7 +33,7 @@ public class Topics {
 	private LocalDateTime creationDate;
 	
 	@Column(nullable = false)
-	private boolean soved;
+	private boolean solved;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "author", nullable = false)
@@ -80,12 +80,12 @@ public class Topics {
 		this.creationDate = creationDate;
 	}
 
-	public boolean isSoved() {
-		return soved;
+	public boolean isSolved() {
+		return solved;
 	}
 
-	public void setSoved(boolean soved) {
-		this.soved = soved;
+	public void setSolved(boolean solved) {
+		this.solved = solved;
 	}
 
 	public Users getAuthor() {
