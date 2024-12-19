@@ -2,6 +2,8 @@ package com.lmlasmo.forum.model;
 
 import java.time.LocalDateTime;
 
+import com.lmlasmo.forum.dto.register.RResponseDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -38,6 +40,15 @@ public class Responses {
 	private Users author;
 	
 	public Responses() {}
+
+	public Responses(RResponseDTO rResponse) {
+		this.message = rResponse.getMessage();
+		this.creationDate = LocalDateTime.now();
+		this.topic = new Topics();
+		this.topic.setId(rResponse.getTopic());
+		this.author = new Users();
+		this.author.setId(rResponse.getAuthor());		
+	}
 
 	public int getId() {
 		return id;
