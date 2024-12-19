@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.lmlasmo.forum.dto.register.RTopicDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,6 +49,16 @@ public class Topics {
 	private Set<Responses> responses = new HashSet<>();
 	
 	public Topics() {}
+
+	public Topics(RTopicDTO rTopic) {
+		this.title = rTopic.getTitle();
+		this.message = rTopic.getMessage();
+		this.author = new Users();
+		this.author.setId(rTopic.getAuthor());
+		this.course = new Courses();
+		this.course.setId(rTopic.getCourse());
+		this.creationDate = LocalDateTime.now();
+	}
 
 	public int getId() {
 		return id;
