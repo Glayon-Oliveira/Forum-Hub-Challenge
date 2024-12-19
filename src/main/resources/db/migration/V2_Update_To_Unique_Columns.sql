@@ -1,1 +1,0 @@
-ALTER TABLE topics ADD UNIQUE(titile, message(255));
