@@ -1,6 +1,7 @@
 package com.lmlasmo.forum.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,7 +11,7 @@ public interface UsersRepository extends JpaRepository<Users, Integer> {
 
 	public List<Users> findByUsername(String username);
 	
-	public Users findByEmailIgnoreCase(String email);	
+	public Optional<Users> findByEmailIgnoreCase(String email);	
 	
 	public boolean existsByUsername(String username);
 	

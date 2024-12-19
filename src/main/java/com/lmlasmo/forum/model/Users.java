@@ -1,7 +1,14 @@
 package com.lmlasmo.forum.model;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.lmlasmo.forum.dto.register.SignupDTO;
 
@@ -12,6 +19,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
@@ -20,7 +28,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements UserDetails{
+
+	private static final long serialVersionUID = 3840088879462312992L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +47,9 @@ public class Users {
 	
 	@OneToOne(mappedBy = "user",fetch = FetchType.EAGER, cascade = {CascadeType.ALL})			
 	private Profiles profile;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Roles role;
 	
 	@OneToMany(mappedBy = "author")
 	private Set<Topics> topics = new HashSet<>();
@@ -98,6 +111,24 @@ public class Users {
 	public void setProfile(Profiles profile) {
 		this.profile = profile;
 	}
+	
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+		List<RoleType> type = this.role.getRole().getHierarchyBy();
+		
+		return type.stream()
+				.map(r -> new SimpleGrantedAuthority(r.name()))
+				.collect(Collectors.toList());		
+	}
+
+	public Roles getRole() {
+		return role;
+	}
+
+	public void setRole(Roles role) {
+		this.role = role;
+	}	
 
 	public Set<Topics> getTopics() {
 		return topics;
