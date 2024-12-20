@@ -26,7 +26,7 @@ public class SecurityConfig {
 				   .formLogin(f -> f.disable())
 				   .httpBasic(Customizer.withDefaults())
 				   .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				   .authorizeHttpRequests(a -> a.requestMatchers("/login").permitAll()
+				   .authorizeHttpRequests(a -> a.requestMatchers("/login", "/signup").permitAll()
 						   .anyRequest().authenticated())
 				   .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
 				   .build();		
