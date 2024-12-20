@@ -9,42 +9,50 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lmlasmo.forum.dto.generic.UserDTO;
 import com.lmlasmo.forum.dto.register.SignupDTO;
 import com.lmlasmo.forum.model.Users;
+import com.lmlasmo.forum.repository.RolesRepository;
 import com.lmlasmo.forum.repository.UsersRepository;
 
 @Service
 @Transactional
 public class UserService {
 
-	private UsersRepository repository;
+	private UsersRepository usersRepository;
+	private RolesRepository rolesRepository;
 	
-	public UserService(UsersRepository repository) {
-		this.repository = repository;
+	public UserService(UsersRepository usersRepository, RolesRepository rolesRepository) {
+		this.usersRepository = usersRepository;
+		this.rolesRepository = rolesRepository;
 	}
 	
 	public UserDTO save(Users user) {
 		
-		repository.save(user);
+		if(user.getRole().getId() <= 0) {
+			user.setRole(rolesRepository.findByRole(user.getRole().getRole()));
+		}
+		
+		usersRepository.save(user);
 		
 		return new UserDTO(user);
 	}
 	
 	public UserDTO save(SignupDTO signup) {
 		
-		Users user = new Users(signup);				
+		Users user = new Users(signup);		
+		user.setRole(rolesRepository.findByRole(signup.getRole()));		
 		
 		return save(user);		
 	}	
 	
 	public boolean deleteById(int id) {
 		
-		repository.deleteById(id);
+		usersRepository.deleteById(id);
 		
-		return !repository.existsById(id);
+		return !usersRepository.existsById(id);
 	}
 	
 	public UserDTO findById(int id) {
 		
-		Optional<Users> user = repository.findById(id);
+		Optional<Users> user = usersRepository.findById(id);
 		
 		if(user.isPresent()) {
 			return new UserDTO(user.get());
@@ -55,7 +63,7 @@ public class UserService {
 	
 	public UserDTO findByEmail(String email) {
 		
-		Optional<Users> user = repository.findByEmailIgnoreCase(email);
+		Optional<Users> user = usersRepository.findByEmailIgnoreCase(email);
 		
 		if(user.isPresent()) {
 			return new UserDTO(user.get());
@@ -66,13 +74,13 @@ public class UserService {
 
 	public List<UserDTO> findAllById(Integer[] ids) {			
 				
-		return repository.findAllById(List.of(ids)).stream()
+		return usersRepository.findAllById(List.of(ids)).stream()
 				.map(u -> new UserDTO(u))
 				.toList();
 	}
 	
 	public UsersRepository getRepository() {
-		return this.repository;
+		return this.usersRepository;
 	}
 	
 }

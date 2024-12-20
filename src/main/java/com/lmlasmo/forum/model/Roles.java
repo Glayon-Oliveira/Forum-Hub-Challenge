@@ -23,14 +23,14 @@ public class Roles implements GrantedAuthority{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+		
 	@Enumerated(EnumType.STRING)
 	private RoleType role;
 	
 	@OneToMany(mappedBy = "role")
 	private Set<Users> users = new HashSet<>();
 	
-	public Roles() {}
+	public Roles() {}	
 
 	@Override
 	public String getAuthority() {

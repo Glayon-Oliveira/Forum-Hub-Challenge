@@ -20,6 +20,8 @@ import com.lmlasmo.forum.dto.generic.JwtDTO;
 import com.lmlasmo.forum.dto.generic.UserDTO;
 import com.lmlasmo.forum.dto.register.LoginDTO;
 import com.lmlasmo.forum.dto.register.SignupDTO;
+import com.lmlasmo.forum.infra.security.util.AuthUser;
+import com.lmlasmo.forum.model.RoleType;
 import com.lmlasmo.forum.service.JwtService;
 import com.lmlasmo.forum.service.UserService;
 
@@ -64,16 +66,24 @@ public class UserRegisterController {
 	@PostMapping("/signup")
 	public ResponseEntity<UserDTO> signup(@RequestBody @Valid SignupDTO signup){
 		
+		Authentication auth = AuthUser.getAuthentication();
+		boolean admin = auth.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals(RoleType.USER_ADMIN.name()));
+		
+		if(!admin || signup.getRole() == null) {
+			signup.setRole(RoleType.USER_COMUM);
+		}
+				
 		String passwordEncoded = encoder.encode(signup.getPassword());
 		signup.setPassword(passwordEncoded);
 		
-		UserDTO user = userService.save(signup);
+		UserDTO dto = userService.save(signup);
 		
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(dto);
 	}
 	
 	@DeleteMapping("/user/delete/{id}")
-	@PreAuthorize("hasAuthority('ADMIN') || principal.id == #id")
+	@PreAuthorize("hasAuthority('USER_ADMIN') || principal.id == #id")
 	public ResponseEntity<Object> delete(@PathVariable("id") int id){
 		
 		boolean deleted = userService.deleteById(id);

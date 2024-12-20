@@ -65,7 +65,7 @@ public class Users implements UserDetails{
 		this.username = signup.getUsername();
 		this.email = signup.getEmail();
 		this.password = signup.getPassword();
-		this.profile = new Profiles(signup.getProfileName(), this);
+		this.profile = new Profiles(signup.getProfileName(), this);		
 	}
 
 	@PrePersist
