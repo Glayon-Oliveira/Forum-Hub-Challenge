@@ -11,13 +11,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.lmlasmo.forum.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
 		
 		return http.csrf(c -> c.disable())
 				   .formLogin(f -> f.disable())
@@ -25,6 +28,7 @@ public class SecurityConfig {
 				   .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				   .authorizeHttpRequests(a -> a.requestMatchers("/login").permitAll()
 						   .anyRequest().authenticated())
+				   .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
 				   .build();		
 	}
 	
