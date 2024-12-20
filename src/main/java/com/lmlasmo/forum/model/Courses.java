@@ -3,6 +3,8 @@ package com.lmlasmo.forum.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.lmlasmo.forum.dto.generic.CourseDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,11 @@ public class Courses {
 	private Set<Topics> topics = new HashSet<>();
 	
 	public Courses() {}	
+
+	public Courses(CourseDTO course) {
+		this.name = course.getName();
+		this.category = course.getCategory();
+	}
 
 	public int getId() {
 		return id;
