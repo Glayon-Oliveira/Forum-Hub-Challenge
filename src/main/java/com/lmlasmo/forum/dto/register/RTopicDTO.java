@@ -15,8 +15,7 @@ public class RTopicDTO {
 	@NotBlank
 	private String message;
 	
-	@JsonProperty
-	@Min(1)
+	@JsonProperty	
 	private int author;
 		
 	@JsonProperty	

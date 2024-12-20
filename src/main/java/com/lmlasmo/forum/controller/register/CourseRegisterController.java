@@ -2,6 +2,7 @@ package com.lmlasmo.forum.controller.register;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ public class CourseRegisterController {
 	}
 	
 	@PostMapping("/register")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<CourseDTO> register(@RequestBody @Valid CourseDTO course){
 		
 		course = courseService.save(course);
@@ -33,6 +35,7 @@ public class CourseRegisterController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Object> delete(int id){
 		
 		boolean deleted = courseService.deleteById(id);
