@@ -3,36 +3,21 @@ package com.lmlasmo.forum.dto.generic;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lmlasmo.forum.model.Users;
 
-public class UserDTO {
+public class UserDTO extends ProfileDTO{
 
-	@JsonProperty
-	private int id;
-	
 	@JsonProperty
 	private String username;
 	
 	@JsonProperty
-	private String email;
-	
-	@JsonProperty("profile_name")
-	private String profileName;
+	private String email;	
 	
 	public UserDTO() {}
 	
-	public UserDTO(Users user) {
-		this.id = user.getId();
+	public UserDTO(Users user) {	
+		super(user);
 		this.username = user.getUsername();
-		this.email = user.getEmail();
-		this.profileName = user.getProfile().getName();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+		this.email = user.getEmail();		
+	}	
 
 	public String getUsername() {
 		return username;
@@ -48,14 +33,6 @@ public class UserDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getProfileName() {
-		return profileName;
-	}
-
-	public void setProfileName(String profileName) {
-		this.profileName = profileName;
 	}
 	
 }

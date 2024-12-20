@@ -1,5 +1,8 @@
 package com.lmlasmo.forum.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +40,35 @@ public class UserService {
 		repository.deleteById(id);
 		
 		return !repository.existsById(id);
+	}
+	
+	public UserDTO findById(int id) {
+		
+		Optional<Users> user = repository.findById(id);
+		
+		if(user.isPresent()) {
+			return new UserDTO(user.get());
+		}
+		
+		return null;
+	}
+	
+	public UserDTO findByEmail(String email) {
+		
+		Optional<Users> user = repository.findByEmailIgnoreCase(email);
+		
+		if(user.isPresent()) {
+			return new UserDTO(user.get());
+		}
+		
+		return null;
+	}
+
+	public List<UserDTO> findAllById(Integer[] ids) {			
+				
+		return repository.findAllById(List.of(ids)).stream()
+				.map(u -> new UserDTO(u))
+				.toList();
 	}
 	
 	public UsersRepository getRepository() {
