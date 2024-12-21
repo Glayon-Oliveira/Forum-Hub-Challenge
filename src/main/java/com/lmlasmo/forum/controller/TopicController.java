@@ -13,7 +13,7 @@ import com.lmlasmo.forum.dto.generic.TopicDTO;
 import com.lmlasmo.forum.service.TopicService;
 
 @RestController
-@RequestMapping("/topic")
+@RequestMapping("/topicos")
 public class TopicController {
 
 	private TopicService service;

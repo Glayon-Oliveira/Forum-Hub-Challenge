@@ -21,7 +21,7 @@ import com.lmlasmo.forum.service.TopicService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/topic")
+@RequestMapping("/topicos")
 public class TopicRegisterController {
 
 	private TopicService service;
