@@ -8,8 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.lmlasmo.forum.dto.generic.TopicDTO;
 import com.lmlasmo.forum.dto.register.RTopicDTO;
+import com.lmlasmo.forum.dto.register.UTopicDTO;
 import com.lmlasmo.forum.model.Topics;
 import com.lmlasmo.forum.repository.TopicsRepository;
+
+import jakarta.validation.Valid;
 
 @Service
 public class TopicService {
@@ -32,6 +35,35 @@ public class TopicService {
 		Topics topic = new Topics(rTopic);
 				
 		return save(topic);
+	}
+	
+	public TopicDTO update(int id, UTopicDTO uTopic){
+	
+		Optional<Topics> topicOp = repository.findById(id);
+		
+		if(topicOp.isPresent()){
+			
+			Topics topic = topicOp.get();
+			
+			String uTitle = uTopic.getTitle();
+			String uMessage = uTopic.getMessage();
+			
+			if(!uTitle.isEmpty() && topic.getTitle().equals(uTitle)){
+			
+				topic.setTitle(title);
+				
+			}else if(!uMessage.isEmpty() && topic.getMessage().equals(uMessage)){
+			
+				topic.setTitle(uTopic.getMessage());
+				
+			}else{
+				return new TopicDTO();
+			}
+			
+			return save(topic);	
+		}
+	
+		return null;	
 	}
 	
 	public boolean delete(Topics topic) {
@@ -86,6 +118,6 @@ public class TopicService {
 	
 	public TopicsRepository getRepository() {
 		return this.repository;
-	}
+	}	
 	
 }
