@@ -26,7 +26,7 @@ public class ResponseRegisterController {
 		this.service = service;		
 	}
 
-	@PostMapping("/register")
+	@PostMapping
 	public ResponseEntity<ResponseDTO> register(@RequestBody @Valid RResponseDTO dto) {
 
 		ResponseDTO response = service.save(dto);
@@ -34,7 +34,7 @@ public class ResponseRegisterController {
 		return ResponseEntity.ok(response);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER_ADMIN') || @authUser.isSubordinateResponse(#id) || @authUser.existsResponse(#id)")
 	public ResponseEntity<Object> delete(@PathVariable("id") int id) {
 
@@ -47,7 +47,7 @@ public class ResponseRegisterController {
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PutMapping("/solved/set/{id}")
+	@PutMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER_ADMIN') || @authUser.isSubordinateResponse(#id)")	
 	public ResponseEntity<ResponseDTO> setSolved(@PathVariable("id") int id) {
 

@@ -29,7 +29,7 @@ public class TopicRegisterController {
 		this.service = service;
 	}
 
-	@PostMapping("/register")
+	@PostMapping
 	public ResponseEntity<TopicDTO> register(@RequestBody @Valid RTopicDTO dto) {
 
 		Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -40,7 +40,7 @@ public class TopicRegisterController {
 		return ResponseEntity.ok(topic);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER_ADMIN') || @authUser.existsTopic(#id)")
 	public ResponseEntity<Object> delete(@PathVariable("id") int id) {
 

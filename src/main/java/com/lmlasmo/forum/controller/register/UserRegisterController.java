@@ -35,7 +35,6 @@ public class UserRegisterController {
 	private AuthenticationManager manager;
 	private PasswordEncoder encoder;
 	
-	
 	@Autowired
 	public UserRegisterController(UserService userService, JwtService jwtService, AuthenticationManager manager, PasswordEncoder encoder) {
 		this.userService = userService;
@@ -82,7 +81,7 @@ public class UserRegisterController {
 		return ResponseEntity.ok(dto);
 	}
 	
-	@DeleteMapping("/user/delete/{id}")
+	@DeleteMapping("/user/{id}")
 	@PreAuthorize("hasAuthority('USER_ADMIN') || principal.id == #id")
 	public ResponseEntity<Object> delete(@PathVariable("id") int id){
 		

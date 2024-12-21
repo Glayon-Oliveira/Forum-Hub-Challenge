@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,20 +19,22 @@ import com.lmlasmo.forum.service.UserService;
 public class UserController {
 
 	private UserService userService;
+	private AuthUser user;
 	
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, AuthUser user) {
 		this.userService = userService;
+		this.user = user;
 	}
 	
 	@GetMapping
-	public ResponseEntity<UserDTO> findUserAuthenticated(AuthUser user){				
+	public ResponseEntity<UserDTO> findUserAuthenticated(){				
 		
 		return ResponseEntity.ok(new UserDTO(user.getUser()));		
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<ProfileDTO> findById(@PathVariable("id") int id){	
+	@GetMapping(params = "id")
+	public ResponseEntity<ProfileDTO> findById(@RequestParam("id") int id){	
 		
 		ProfileDTO profile = userService.findById(id);
 		

@@ -25,7 +25,7 @@ public class CourseRegisterController {
 		this.courseService = courseService;
 	}
 	
-	@PostMapping("/register")
+	@PostMapping
 	@PreAuthorize("hasAuthority('USER_ADMIN')")
 	public ResponseEntity<CourseDTO> register(@RequestBody @Valid CourseDTO course){
 		
@@ -34,7 +34,7 @@ public class CourseRegisterController {
 		return ResponseEntity.ok(course);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("hasAuthority('USER_ADMIN')")
 	public ResponseEntity<Object> delete(int id){
 		

@@ -42,16 +42,16 @@ public class TopicController {
 		return ResponseEntity.ok(topicPage);				
 	}
 	
-	@GetMapping("/course/{id}")
-	public ResponseEntity<Page<TopicDTO>> findByCourse(@PathVariable("id") int id, Pageable pageable){
+	@GetMapping(params = "course")
+	public ResponseEntity<Page<TopicDTO>> findByCourse(@RequestParam("id") int id, Pageable pageable){
 		
 		Page<TopicDTO> topicPage = service.findByCourse(id, pageable);
 		
 		return ResponseEntity.ok(topicPage);				
 	}	
 	
-	@GetMapping(value = "/course/{id}", params = "solved")
-	public ResponseEntity<Page<TopicDTO>> findByCourseAndSolved(@PathVariable("id") int id, @RequestParam("solved") boolean solved, Pageable pageable){
+	@GetMapping(params = {"course","solved"})
+	public ResponseEntity<Page<TopicDTO>> findByCourseAndSolved(@RequestParam("id") int id, @RequestParam("solved") boolean solved, Pageable pageable){
 		
 		Page<TopicDTO> topicPage = service.findByCourseAndSolved(id, solved, pageable);
 		
